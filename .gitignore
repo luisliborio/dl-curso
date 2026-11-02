@@ -1,0 +1,22 @@
+# Ambiente
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Dados e artefatos ficam fora do Git (baixados/gerados por script)
+data/
+artifacts/
+mlruns/
+wandb/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Lixo do Windows ao copiar arquivos para o WSL
+*Zone.Identifier
+Thumbs.db
+desktop.ini

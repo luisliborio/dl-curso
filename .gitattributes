@@ -1,0 +1,5 @@
+# Finais de linha LF sempre (evita quebrar scripts .sh editados no Windows)
+* text=auto eol=lf
+*.ipynb text eol=lf
+*.png binary
+*.jpg binary

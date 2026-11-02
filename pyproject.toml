@@ -1,0 +1,56 @@
+[project]
+name = "dlcurso"
+version = "0.1.0"
+description = "Curso contínuo de Deep Learning — código, experimentos e reproduções"
+readme = "README.md"
+requires-python = ">=3.11"
+# Dependências base NÃO incluem torch: no Colab, `pip install -e .` reaproveita o torch já instalado.
+dependencies = [
+    "numpy>=2.0",
+    "tqdm",
+    "matplotlib",
+]
+
+# Variante do PyTorch escolhida por extra (mutuamente exclusivos):
+#   uv sync --extra cpu    → notebook sem GPU
+#   uv sync --extra cuda   → workstation (3090 Ti) / cloud
+[project.optional-dependencies]
+cpu = ["torch>=2.12"]
+cuda = ["torch>=2.12"]
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff", "ipykernel"]
+
+[tool.uv]
+conflicts = [[{ extra = "cpu" }, { extra = "cuda" }]]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cuda", extra = "cuda" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cuda"
+# Única linha a mudar quando trocar a versão de CUDA (conferir a lista atual em pytorch.org/get-started).
+# Exige driver NVIDIA no Windows compatível com CUDA 13.x. (para WSL2)
+url = "https://download.pytorch.org/whl/cu134"
+explicit = true
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dlcurso"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
